@@ -1,0 +1,10 @@
+.App {
+  text-align: center;
+}
+
+.Jumbotron{
+  color: #eee;
+  height: 200px;
+  background-image: url('./background.jpg');
+  background-size: cover;
+}
