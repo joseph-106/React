@@ -58,7 +58,7 @@ function App(){
         </div>
       </Route>
 
-      <Route path="/detail">
+      <Route path="/detail/:id">
         <Detail shoes={shoes}/>
       </Route>
 
