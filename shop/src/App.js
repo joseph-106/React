@@ -5,9 +5,11 @@ import { Navbar,Nav,NavDropdown,Container, Button } from 'react-bootstrap';
 import data from './data.js';
 import Detail from './Detail.js';
 import { Link, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 
 function App(){
   let [shoes, shoes변경] = useState(data);
+  let [재고, 재고변경] = useState([10,8,12]);
 
   return (
     <div className="App">
@@ -53,13 +55,22 @@ function App(){
                 })
               }
             </div>
+            <button className="btn btn-primary" onClick={()=>{
+
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((result)=>{
+                shoes변경( [...shoes, ...result.data] )
+              })
+              .catch(()=>{})
+
+            }}>더보기</button>
           </div>
           
         </div>
       </Route>
 
       <Route path="/detail/:id">
-        <Detail shoes={shoes}/>
+        <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
       </Route>
 
     </div>
@@ -68,11 +79,13 @@ function App(){
 
 function Card(props){
   return(
+    <>
     <div className="col-md-4">
       <img src={ 'https://codingapple1.github.io/shop/shoes' + (props.i+1) + '.jpg' } width="100%" />
       <h4>{ props.shoes.title }</h4>
       <p>{ props.shoes.content } & { props.shoes.price }</p>
     </div>
+    </>
   )
 }
 

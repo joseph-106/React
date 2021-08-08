@@ -46,11 +46,22 @@ function Detail(props) {
           <h4 className="pt-5">{ 찾은상품.title }</h4>
           <p>{ 찾은상품.content }</p>
           <p>{ 찾은상품.price }원</p>
-          <button className="btn btn-danger">주문하기</button><p/>
+          <Info 재고={props.재고}></Info>
+          <button className="btn btn-danger" onClick={()=>{
+            let newArray = [...props.재고];
+            newArray[0]-=1;
+            props.재고변경(newArray);
+          }}>주문하기</button><p/>
           <button className="btn btn-danger" onClick={()=>{ history.push('/'); }}>홈으로</button> 
         </div>
       </div>
   </div> 
+  )
+}
+
+function Info(props){
+  return(
+    <p>재고: {props.재고[0]}개</p>
   )
 }
 
