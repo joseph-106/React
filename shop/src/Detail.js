@@ -1,7 +1,9 @@
 /* eslint-disable */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import App from './App';
+import { 재고context } from './App.js';
 
 let Alert = styled.div`
   background: #eeeeee;
@@ -26,6 +28,8 @@ function Detail(props) {
 
   let [alert, alert변경] = useState(true);
 
+  let 재고 = useContext(재고context);
+
   useEffect(()=>{
     let 타이머 = setTimeout(()=>{alert변경(false)}, 2000);
     return ()=>{ clearTimeout(타이머) }
@@ -46,7 +50,8 @@ function Detail(props) {
           <h4 className="pt-5">{ 찾은상품.title }</h4>
           <p>{ 찾은상품.content }</p>
           <p>{ 찾은상품.price }원</p>
-          <Info 재고={props.재고}></Info>
+          <Info 재고={props.재고}></Info> {/*props로 건너건너 전달*/}
+          <p>{재고[0]}</p> {/*Context API를 활용한 방법*/}
           <button className="btn btn-danger" onClick={()=>{
             let newArray = [...props.재고];
             newArray[0]-=1;
