@@ -2,8 +2,11 @@
 import { useEffect, useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import App from './App';
+import './Detail.scss'
 import { 재고context } from './App.js';
+
+import { Nav } from 'react-bootstrap';
+import { CSSTransition } from "react-transition-group"
 
 let Alert = styled.div`
   background: #eeeeee;
@@ -29,6 +32,9 @@ function Detail(props) {
   let [alert, alert변경] = useState(true);
 
   let 재고 = useContext(재고context);
+
+  let [누른탭, 누른탭변경] = useState(0);
+  let [스위치, 스위치변경] = useState(false);
 
   useEffect(()=>{
     let 타이머 = setTimeout(()=>{alert변경(false)}, 2000);
@@ -60,8 +66,48 @@ function Detail(props) {
           <button className="btn btn-danger" onClick={()=>{ history.push('/'); }}>홈으로</button> 
         </div>
       </div>
+
+      <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
+        <Nav.Item>
+          <Nav.Link eventKey="link-0" onClick={()=>{ 스위치변경(false); 누른탭변경(0) }}>Option 1</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link-1" onClick={()=>{ 스위치변경(false); 누른탭변경(1) }}>Option 2</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link-2" onClick={()=>{ 스위치변경(false); 누른탭변경(2) }}>Option 3</Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+      <CSSTransition in={스위치} classNames="wow" timeout={500}>
+        <TabContent 누른탭={누른탭} 스위치변경={스위치변경}/>
+      </CSSTransition>
+
   </div> 
   )
+}
+
+function TabContent(props){
+  
+  useEffect( ()=>{
+    props.스위치변경(true); //탭내용 컴포넌트가 로드될 때 true
+  });
+
+  if (props.누른탭 === 0) {
+    return (
+      <div>0번째 내용입니다</div>
+    )
+  }
+  if (props.누른탭 === 1) {
+    return (
+      <div>1번째 내용입니다</div>
+    )
+  }
+  if (props.누른탭 === 2) {
+    return (
+      <div>2번째 내용입니다</div>
+    )
+  }
 }
 
 function Info(props){
