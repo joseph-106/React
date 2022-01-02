@@ -15,12 +15,19 @@ function Cart(props){
             </tr>
         </thead>
         <tbody>
-            <tr>
-            <td>1</td>
-            <td>{props.자유작명[0].name}</td>
-            <td>{props.자유작명[0].quan}</td>
-            <td>#</td>
-            </tr>
+        { props.자유작명.map((a,i)=>{
+          return (
+          <tr key={i}>
+            <td>{a.id}</td>
+            <td>{a.name}</td>
+            <td>{a.quan}</td>
+            <td>
+              <button onClick={()=>{props.dispatch({ type : '수량증가' })}}>+</button>
+              <button onClick={()=>{props.dispatch({ type : '수량감소' })}}>-</button>
+            </td>
+          </tr>
+          )
+        })  }
         </tbody>
       </Table>
     </div>
@@ -29,7 +36,7 @@ function Cart(props){
 
 function 함수(state){
     return {
-        자유작명 : state
+        자유작명 : state // store 안의 모든 데이터
     }
 }
 
