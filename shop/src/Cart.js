@@ -1,6 +1,6 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 let Alert = styled.div`
@@ -17,7 +17,12 @@ let AlertText = styled.p`
   margin-bottom: 10px;
 `;
 
-function Cart(props){
+function Cart(){
+
+  let reducer = useSelector((state)=> state.reducer ) 
+  let reducer2 = useSelector((state)=> state.reducer2 ) 
+  let dispatch = useDispatch();
+
   return (
     <div>
       <Table responsive>
@@ -30,15 +35,15 @@ function Cart(props){
             </tr>
         </thead>
         <tbody>
-        { props.자유작명.map((a,i)=>{
+        { reducer.map((a,i)=>{
           return (
           <tr key={i}>
             <td>{a.id}</td>
             <td>{a.name}</td>
             <td>{a.quan}</td>
             <td>
-              <button onClick={()=>{props.dispatch({ type : '수량증가' })}}>+</button>
-              <button onClick={()=>{props.dispatch({ type : '수량감소' })}}>-</button>
+              <button onClick={()=>{dispatch({ type : '수량증가' })}}>+</button>
+              <button onClick={()=>{dispatch({ type : '수량감소' })}}>-</button>
             </td>
           </tr>
           )
@@ -47,10 +52,10 @@ function Cart(props){
       </Table>
 
       { 
-        props.alert열렸니 === true 
+        reducer2 === true 
         ? (<Alert>
             <AlertText>지금 구매하시면 신규 할인 20%</AlertText>
-            <button onClick={()=>{props.dispatch({ type : 'alert닫기' })}} >닫기</button>
+            <button onClick={()=>{dispatch({ type : 'alert닫기' })}} >닫기</button>
           </Alert>)
         : null
       }
@@ -59,11 +64,13 @@ function Cart(props){
   )
 }
 
-function 함수(state){
-    return {
-        자유작명 : state.reducer, // 첫 reducer에 담긴 데이터
-        alert열렸니 : state.reducer2, // reducer2에 담긴 데이터
-    }
-}
+// function 함수(state){
+//     return {
+//         자유작명 : state.reducer, // 첫 reducer에 담긴 데이터
+//         alert열렸니 : state.reducer2, // reducer2에 담긴 데이터
+//     }
+// }
 
-export default connect(함수)(Cart)
+// export default connect(함수)(Cart)
+
+export default Cart;

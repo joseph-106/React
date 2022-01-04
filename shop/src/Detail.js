@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import './Detail.scss'
 import { 재고context } from './App.js';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Nav } from 'react-bootstrap';
 import { CSSTransition } from "react-transition-group"
@@ -42,6 +42,8 @@ function Detail(props) {
     return ()=>{ clearTimeout(타이머) }
   }, []);
 
+  let dispatch = useDispatch();
+
   return(
     <div className="container">
       { 
@@ -66,7 +68,7 @@ function Detail(props) {
             }
             props.재고변경(newArray);
 
-            props.dispatch({type : '항목추가', payload : {id : 2, name : 찾은상품.title , quan : props.재고[0]}});
+            dispatch({type : '항목추가', payload : {id : 2, name : 찾은상품.title , quan : props.재고[0]}});
             history.push('/cart')
 
           }}>주문하기</button><p/>
@@ -123,11 +125,13 @@ function Info(props){
   )
 }
 
-function 함수(state){
-    return {
-        자유작명 : state.reducer,
-        alert열렸니 : state.reducer2,
-    }
-}
+// function 함수(state){
+//     return {
+//         자유작명 : state.reducer,
+//         alert열렸니 : state.reducer2,
+//     }
+// }
 
-export default connect(함수)(Detail)
+// export default connect(함수)(Detail)
+
+export default Detail
