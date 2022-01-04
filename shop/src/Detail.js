@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import './Detail.scss'
 import { 재고context } from './App.js';
+import { connect } from 'react-redux';
 
 import { Nav } from 'react-bootstrap';
 import { CSSTransition } from "react-transition-group"
@@ -40,7 +41,7 @@ function Detail(props) {
     let 타이머 = setTimeout(()=>{alert변경(false)}, 2000);
     return ()=>{ clearTimeout(타이머) }
   }, []);
-    
+
   return(
     <div className="container">
       { 
@@ -57,11 +58,17 @@ function Detail(props) {
           <p>{ 찾은상품.content }</p>
           <p>{ 찾은상품.price }원</p>
           <Info 재고={props.재고}></Info> {/*props로 건너건너 전달*/}
-          <p>{재고[0]}</p> {/*Context API를 활용한 방법*/}
+          {/*<p>{재고[0]}</p>*/} {/*Context API를 활용한 방법*/}
           <button className="btn btn-danger" onClick={()=>{
             let newArray = [...props.재고];
-            newArray[0]-=1;
+            if (newArray[0] > 0){
+              newArray[0]--;
+            }
             props.재고변경(newArray);
+
+            props.dispatch({type : '항목추가', payload : {id : 2, name : 찾은상품.title , quan : props.재고[0]}});
+            history.push('/cart')
+
           }}>주문하기</button><p/>
           <button className="btn btn-danger" onClick={()=>{ history.push('/'); }}>홈으로</button> 
         </div>
@@ -69,13 +76,13 @@ function Detail(props) {
 
       <Nav className="mt-5" variant="tabs" defaultActiveKey="link-0">
         <Nav.Item>
-          <Nav.Link eventKey="link-0" onClick={()=>{ 스위치변경(false); 누른탭변경(0) }}>Option 1</Nav.Link>
+          <Nav.Link eventKey="link-0" onClick={()=>{ 스위치변경(false); 누른탭변경(0) }}>상품설명</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-1" onClick={()=>{ 스위치변경(false); 누른탭변경(1) }}>Option 2</Nav.Link>
+          <Nav.Link eventKey="link-1" onClick={()=>{ 스위치변경(false); 누른탭변경(1) }}>배송정보</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link-2" onClick={()=>{ 스위치변경(false); 누른탭변경(2) }}>Option 3</Nav.Link>
+          <Nav.Link eventKey="link-2" onClick={()=>{ 스위치변경(false); 누른탭변경(2) }}>문의사항</Nav.Link>
         </Nav.Item>
       </Nav>
 
@@ -116,4 +123,11 @@ function Info(props){
   )
 }
 
-export default Detail
+function 함수(state){
+    return {
+        자유작명 : state.reducer,
+        alert열렸니 : state.reducer2,
+    }
+}
+
+export default connect(함수)(Detail)

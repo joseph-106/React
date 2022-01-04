@@ -25,7 +25,13 @@ let 초기값 = [
 ];
 
 function reducer(state = 초기값, 액션){ // 'state = ~~' state 초기값 설정하는 ES6 default parameter문법
-  if (액션.type === '수량증가') { // 데이터 수정의 조건
+  if (액션.type === '항목추가'){
+    
+    let copy = [...state];
+    copy.push(액션.payload); // payload 데이터를 state에 추가
+    return copy
+
+  } else if (액션.type === '수량증가') { // 데이터 수정의 조건
     
     let copy = [...state]; // state배열을 수정하기 위한 deep copy
     copy[0].quan ++;
