@@ -28,7 +28,7 @@ function Cart(){
       <Table responsive>
         <thead>
             <tr>
-            <th>#</th>
+            <th>id</th>
             <th>상품명</th>
             <th>수량</th>
             <th>변경</th>
@@ -42,8 +42,8 @@ function Cart(){
             <td>{a.name}</td>
             <td>{a.quan}</td>
             <td>
-              <button onClick={()=>{dispatch({ type : '수량증가' })}}>+</button>
-              <button onClick={()=>{dispatch({ type : '수량감소' })}}>-</button>
+              <button onClick={()=>{dispatch({ type : '수량증가', 데이터 : a.id })}}>+</button>
+              <button onClick={()=>{dispatch({ type : '수량감소', 데이터 : a.id })}}>-</button>
             </td>
           </tr>
           )

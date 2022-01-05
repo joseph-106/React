@@ -12,28 +12,39 @@ function reducer2(state = alert초기값, 액션){
 }
 
 let 초기값 = [
-  { id : 0, name : '멋진신발', quan : 2 },
-  { id : 1, name : '멋진신발2', quan : 5 }
+  { id : 0, name : 'White and Black', quan : 2 },
+  { id : 1, name : 'Red Knit', quan : 5 }
 ];
 
 function reducer(state = 초기값, 액션){ // 'state = ~~' state 초기값 설정하는 ES6 default parameter문법
-  if (액션.type === '항목추가'){
+  if (액션.type === '항목추가') {
+    let 몇번째있니 = state.findIndex( (a)=>{ return a.id === 액션.payload.id }); // 동일한 상품의 id
     
-    let copy = [...state];
-    copy.push(액션.payload); // payload 데이터를 state에 추가
-    return copy
+    if ( 몇번째있니 >= 0 ){ // 동일 상품이 있다면 수량만 추가
+      
+      let copy = [...state];
+      copy[몇번째있니].quan ++;
+      return copy
+
+    } else { // 동일 상품이 없다면 항목 추가
+      
+      let copy = [...state];
+      copy.push(액션.payload)
+      return copy
+      
+    }
 
   } else if (액션.type === '수량증가') { // 데이터 수정의 조건
     
     let copy = [...state]; // state배열을 수정하기 위한 deep copy
-    copy[0].quan ++;
+    copy[액션.데이터].quan ++;
     return copy
 
   } else if (액션.type === '수량감소') {
 
     let copy = [...state]; 
-    if (copy[0].quan > 0){ // quan이 음수가 되지 않도록
-      copy[0].quan --;
+    if (copy[액션.데이터].quan > 0){ // quan이 음수가 되지 않도록
+      copy[액션.데이터].quan --;
       return copy
     } else {
       return copy
