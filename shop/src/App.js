@@ -1,13 +1,15 @@
 /* eslint-disable */
 import './App.css';
-import { useState, useContext } from 'react';
+import { useState, useContext, lazy, Suspense } from 'react';
 import { Navbar,Nav,NavDropdown,Container, Button } from 'react-bootstrap';
 import data from './data.js';
-import Detail from './Detail.js';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import React from 'react';
-import Cart from './Cart';
+// import Detail from './Detail.js';
+// import Cart from './Cart';
+let Detail = lazy( ()=>{ return import('./Detail.js') } );
+let Cart = lazy( ()=>{ return import('./Cart.js') } );
 
 export let 재고context = React.createContext();
 
@@ -81,12 +83,16 @@ function App(){
 
       <Route path="/detail/:id">
         <재고context.Provider value={재고}>
-        <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
+          <Suspense fallback={ <div>로딩중입니다~!</div> }>
+            <Detail shoes={shoes} 재고={재고} 재고변경={재고변경}/>
+          </Suspense>
         </재고context.Provider>
       </Route>
 
       <Route path="/cart">
-        <Cart></Cart>
+        <Suspense fallback={ <div>로딩중입니다~!</div> }>
+          <Cart/>
+        </Suspense>
       </Route>
 
     </div>
